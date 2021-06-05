@@ -1,5 +1,6 @@
 package com.smartmobileproject.activity;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -19,22 +20,16 @@ import static com.kakao.usermgmt.StringSet.email;
 
 public class MainActivity extends AppCompatActivity
 {
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-       //getPathOfAllImages();
 
-       /* JsonParsing jsonParsing = new JsonParsing();
-        try {
-            jsonParsing.execute("https://phpproject-cparr.run.goorm.io/Shareuser.php?email="+email+"&shared_email"+shared_email).get();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
-*/
+        //
+        Intent intent = getIntent();
+        String email = intent.getStringExtra("eamil");
+        String shared_email = intent.getStringExtra("shared_email");
 
     }
 

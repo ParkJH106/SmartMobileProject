@@ -38,17 +38,12 @@ public class ShareActivity extends AppCompatActivity {
             public void onClick(View view) {
 
                 String shared_email = et_email.getText().toString();
-/*
-                JsonParsing jsonParsing = new JsonParsing();
-                jsonParsing.execute("https://phpproject-cparr.run.goorm.io/Shareuser.php?r=shared_email"+shared_email);
-*/
+
                 if(response = true) {
-                    Intent rintent = getIntent();
-
-                    email =  rintent.getStringExtra("email");
-                    shared_email =  rintent.getStringExtra("shared_email");
-
-                    startActivity(new Intent(ShareActivity.this, MapActivity.class));
+                    Intent intent = new Intent(ShareActivity.this, MainActivity.class);
+                    intent.putExtra("email", email);//파싱한 값을 넘겨줌
+                    intent.putExtra("shared_email", shared_email);
+                    ShareActivity.this.startActivity(intent);
                     Toast.makeText(ShareActivity.this, "공유대상이 추가되었습니다.", Toast.LENGTH_SHORT).show();
                 }
                 else {
@@ -60,9 +55,9 @@ public class ShareActivity extends AppCompatActivity {
         });
 
     }
-    public void Upload(String shared_email){
+    public void Upload(String email, String shared_email){
 
-        String serverUrl = "https://phpproject-cparr.run.goorm.io/Kakaouser.php?email=" + shared_email;
+        String serverUrl = "https://phpproject-cparr.run.goorm.io/Kakaouser.php";
 
         SimpleMultiPartRequest smpr = new SimpleMultiPartRequest(Request.Method.POST, serverUrl, new Response.Listener<String>() {
             @Override
@@ -77,7 +72,9 @@ public class ShareActivity extends AppCompatActivity {
             }
         });
 
-        smpr.addStringParam("shared_email", shared_email);
+        smpr.addStringParam("email",email);
+        smpr.addStringParam("shared_email",email);
+        Log.d("email",email);
         Log.d("shared_email", shared_email);
 
 

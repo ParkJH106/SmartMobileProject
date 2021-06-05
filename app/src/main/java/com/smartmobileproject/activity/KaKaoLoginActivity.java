@@ -67,32 +67,22 @@ public class KaKaoLoginActivity extends AppCompatActivity {
                     @Override
                     public void onSuccess(MeV2Response result) {
                         //로그인 성공
-                        Intent intent = new Intent(KaKaoLoginActivity.this, SubActivity.class);
+/*                      Intent intent = new Intent(KaKaoLoginActivity.this, SubActivity.class);
                         intent.putExtra("name", result.getKakaoAccount().getProfile().getNickname());
                         intent.putExtra("profileImg", result.getKakaoAccount().getProfile().getProfileImageUrl());
                         intent.putExtra("email", result.getKakaoAccount().getEmail());
                         Log.d("email", result.getKakaoAccount().getEmail());
 
                         startActivity(intent);
-
-/*
-                        JsonParsing jsonParsing = new JsonParsing();
-                        jsonParsing.execute("https://phpproject-cparr.run.goorm.io/Kakaouser.php?email="+email);
-
-
-                        GetHttpResponse getHttpResponse = new GetHttpResponse();
-                        getHttpResponse.execute(//구름주소 );*/
-
+*/
                         Toast.makeText(KaKaoLoginActivity.this, "환영합니다!", Toast.LENGTH_SHORT).show();
 
-
                         if(response = true) {
-                            Intent rintent = getIntent();
+                            Intent intent = new Intent(KaKaoLoginActivity.this, MainActivity.class);
+                            intent.putExtra("eamil", email);//파싱한 값을 넘겨줌
+                            intent.putExtra("shared_email", shared_email);
+                            KaKaoLoginActivity.this.startActivity(intent);
 
-                            email =  rintent.getStringExtra("email");
-                            shared_email =  rintent.getStringExtra("shared_email");
-
-                            startActivity(new Intent(KaKaoLoginActivity.this, MapActivity.class));
                         }
                         else {
                             startActivity(new Intent(KaKaoLoginActivity.this, ShareActivity.class));
@@ -110,9 +100,6 @@ public class KaKaoLoginActivity extends AppCompatActivity {
             }
         };
 
-
-
-
         Session.getCurrentSession().addCallback(mSessionCallback);
         Session.getCurrentSession().checkAndImplicitOpen();
 
@@ -121,9 +108,9 @@ public class KaKaoLoginActivity extends AppCompatActivity {
         //getHashKey();
     }
 
-    public void Upload(String email){
+    public void Upload(String email, String shared_email){
 
-        String serverUrl="https://phpproject-cparr.run.goorm.io/Kakaouser.php?email="+email;
+        String serverUrl="https://phpproject-cparr.run.goorm.io/Kakaouser.php";
 
         SimpleMultiPartRequest smpr= new SimpleMultiPartRequest(Request.Method.POST, serverUrl, new Response.Listener<String>() {
             @Override
@@ -140,7 +127,9 @@ public class KaKaoLoginActivity extends AppCompatActivity {
         });
 
         smpr.addStringParam("email",email);
+        smpr.addStringParam("shared_email",email);
         Log.d("email",email);
+        Log.d("shared_email", shared_email);
 
 
         RequestQueue requestQueue= Volley.newRequestQueue(this);
